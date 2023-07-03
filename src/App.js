@@ -42,7 +42,7 @@ function Board({ currentPlayerX, squares, onPlay }){
     onPlay(copySquares);
   }
   return <>
-      <p>{status}</p>
+      <div className='status'>{status}</div>
       <div className='board-row'>
         <Square input={squares[0]} onSquareClick={()=>{handleClick(0)}}/>
         <Square input={squares[1]} onSquareClick={()=>{handleClick(1)}}/>
@@ -64,20 +64,39 @@ function Board({ currentPlayerX, squares, onPlay }){
 function Game (){
   const [currentPlayerX, setCurrentPlayerX] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
-  const currentSquares = history[history.length-1];
+  const [currentMove, setCurrentMove] = useState(0);
+  const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares){
-    setHistory([...history,nextSquares]); 
+    const nextHistory = [...history.slice(0,currentMove+1),nextSquares];
+    setHistory(nextHistory); 
+    setCurrentMove(nextHistory.length-1);
     setCurrentPlayerX(!currentPlayerX);
   }
 
+  function jumpTo(nextMove){
+    setCurrentMove(nextMove);
+    setCurrentPlayerX(nextMove%2===0);
+  }
+  const moves = history.map((squares,move)=>{
+    let desc;
+    
+    if(move>0) desc=`Go to Move ${move}`;
+    else desc='Go to game Start';
+
+    return (
+      <li key={move}>
+        <button onClick={()=> jumpTo(move)}>{desc}</button>
+      </li>
+    );
+  });
   return (
   <div className='game'>
     <div className='game-board'>
       <Board currentPlayerX={currentPlayerX} squares={currentSquares} onPlay={handlePlay}/>
     </div>
     <div className='game-info'>
-      <ol>{}</ol>
+      <ol>{moves}</ol>
     </div>
   </div>
   );
