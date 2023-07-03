@@ -62,23 +62,21 @@ function Board({ currentPlayerX, squares, onPlay }){
 }
 
 function Game (){
-  const [currentPlayerX, setCurrentPlayerX] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const currentPlayerX = currentMove%2===0;
   const currentSquares = history[currentMove];
 
   function handlePlay(nextSquares){
     const nextHistory = [...history.slice(0,currentMove+1),nextSquares];
     setHistory(nextHistory); 
     setCurrentMove(nextHistory.length-1);
-    setCurrentPlayerX(!currentPlayerX);
   }
 
   function jumpTo(nextMove){
     setCurrentMove(nextMove);
-    setCurrentPlayerX(nextMove%2===0);
   }
-  const moves = history.map((squares,move)=>{
+  const moves = history.map((_squares,move)=>{
     let desc;
     
     if(move>0) desc=`Go to Move ${move}`;
