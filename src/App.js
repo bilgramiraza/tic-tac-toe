@@ -24,9 +24,7 @@ function Square({ input, onSquareClick }){
   return <button className='square' onClick={onSquareClick}>{ input }</button>
 }
 
-function Board(){
-  const [currentPlayerX, setCurrentPlayerX] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
+function Board({ currentPlayerX, squares, onPlay }){
 
   const winner = calculateWinner(squares);
   let status;
@@ -41,8 +39,7 @@ function Board(){
     if(currentPlayerX)  copySquares[index] = 'X';
     else copySquares[index] = 'O';
 
-    setSquares(copySquares);
-    setCurrentPlayerX(!currentPlayerX);
+    onPlay(copySquares);
   }
   return <>
       <p>{status}</p>
@@ -64,10 +61,32 @@ function Board(){
     </>;
 }
 
+function Game (){
+  const [currentPlayerX, setCurrentPlayerX] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const currentSquares = history[history.length-1];
+
+  function handlePlay(nextSquares){
+    setHistory([...history,nextSquares]); 
+    setCurrentPlayerX(!currentPlayerX);
+  }
+
+  return (
+  <div className='game'>
+    <div className='game-board'>
+      <Board currentPlayerX={currentPlayerX} squares={currentSquares} onPlay={handlePlay}/>
+    </div>
+    <div className='game-info'>
+      <ol>{}</ol>
+    </div>
+  </div>
+  );
+}
+
 function App() {
   return (
     <>
-    <Board />
+    <Game/>
     </>
   );
 }
