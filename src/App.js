@@ -9,6 +9,8 @@ function Board(){
   const [currentPlayerX, setCurrentPlayerX] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
   function handleClick(index){
+    if(squares[index])  return;
+
     const newSquares = squares.slice();
     
     if(currentPlayerX)  newSquares[index] = 'X';
