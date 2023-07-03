@@ -6,11 +6,16 @@ function Square({ input, onSquareClick }){
 }
 
 function Board(){
+  const [currentPlayerX, setCurrentPlayerX] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
   function handleClick(index){
     const newSquares = squares.slice();
-    newSquares[index] = 'X';
+    
+    if(currentPlayerX)  newSquares[index] = 'X';
+    else newSquares[index] = 'O';
+
     setSquares(newSquares);
+    setCurrentPlayerX(!currentPlayerX);
   }
   return <>
       <div className='board-row'>
