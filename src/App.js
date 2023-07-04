@@ -24,7 +24,7 @@ function Square({ input, onSquareClick }){
   return <button className='square' onClick={onSquareClick}>{ input }</button>
 }
 
-function Board({ currentPlayerX, squares, onPlay }){
+function Board({ currentPlayerX, squares, onPlay, size}){
 
   const winner = calculateWinner(squares);
   let status;
@@ -41,27 +41,25 @@ function Board({ currentPlayerX, squares, onPlay }){
 
     onPlay(copySquares);
   }
-  return <>
+
+  let renderedBoard=[];
+  for(let i =0;i<size;i++){
+    let row=[];
+    for(let j =0;j<size;j++){
+      const index = (i*size)+j;
+      row.push(<Square key={index} input={squares[index]} onSquareClick={()=>{handleClick(index)}}/>);
+    }
+    renderedBoard.push(<div className='board-row' key={i}>{row}</div>);
+  }
+  return (
+    <>
       <div className='status'>{status}</div>
-      <div className='board-row'>
-        <Square input={squares[0]} onSquareClick={()=>{handleClick(0)}}/>
-        <Square input={squares[1]} onSquareClick={()=>{handleClick(1)}}/>
-        <Square input={squares[2]} onSquareClick={()=>{handleClick(2)}}/>
-      </div>
-      <div className='board-row'>
-        <Square input={squares[3]} onSquareClick={()=>{handleClick(3)}}/>
-        <Square input={squares[4]} onSquareClick={()=>{handleClick(4)}}/>
-        <Square input={squares[5]} onSquareClick={()=>{handleClick(5)}}/>
-      </div>
-      <div className='board-row'>
-        <Square input={squares[6]} onSquareClick={()=>{handleClick(6)}}/>
-        <Square input={squares[7]} onSquareClick={()=>{handleClick(7)}}/>
-        <Square input={squares[8]} onSquareClick={()=>{handleClick(8)}}/>
-      </div>
-    </>;
+      {renderedBoard}
+    </>
+  );
 }
 
-function Game (){
+function Game ({size}){
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const currentPlayerX = currentMove%2===0;
@@ -91,7 +89,7 @@ function Game (){
   return (
   <div className='game'>
     <div className='game-board'>
-      <Board currentPlayerX={currentPlayerX} squares={currentSquares} onPlay={handlePlay}/>
+      <Board currentPlayerX={currentPlayerX} squares={currentSquares} onPlay={handlePlay} size={size}/>
     </div>
     <div className='game-info'>
       <ol>{moves}</ol>
@@ -101,9 +99,8 @@ function Game (){
 }
 
 function App() {
-  return (
-    <Game/>
-  );
+  const size = 3;
+  return (<Game size={size}/>);
 }
 
 export default App;
