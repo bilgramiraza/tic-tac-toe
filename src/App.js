@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 
-function genWinningLines(size){
+const genWinningLines = (size) => {
   const lines = [];
   for(let i=0;i<size;i++){
     let row =[];
@@ -24,7 +24,7 @@ function genWinningLines(size){
   return lines;
 }
 
-function calculateWinner(squares, size){
+const calculateWinner = (squares, size) => {
   const lines = genWinningLines(size);
   for(let i=0;i<lines.length;i++){
     const line = lines[i];
@@ -41,18 +41,18 @@ function calculateWinner(squares, size){
   return null;
 }
 
-function Square({ input, onSquareClick }){
+const Square = ({ input, onSquareClick }) => {
   return <button className='square' onClick={onSquareClick}>{ input }</button>
 }
 
-function Board({ currentPlayerX, squares, onPlay, size}){
+const Board = ({ currentPlayerX, squares, onPlay, size}) => {
 
   const winner = calculateWinner(squares, size);
   let status;
   if(winner)  status = `Winner ${winner}`;
   else status=`Current Player: ${currentPlayerX?'X':'O'}`;
 
-  function handleClick(index){
+  const handleClick = (index) => {
     if(calculateWinner(squares,size) || squares[index])  return;
 
     const copySquares = squares.slice();
@@ -80,19 +80,19 @@ function Board({ currentPlayerX, squares, onPlay, size}){
   );
 }
 
-function Game ({size}){
+const Game = ({size}) => {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const currentPlayerX = currentMove%2===0;
   const currentSquares = history[currentMove];
 
-  function handlePlay(nextSquares){
+  const handlePlay = (nextSquares) => {
     const nextHistory = [...history.slice(0,currentMove+1),nextSquares];
     setHistory(nextHistory); 
     setCurrentMove(nextHistory.length-1);
   }
 
-  function jumpTo(nextMove){
+  const jumpTo = (nextMove) => {
     setCurrentMove(nextMove);
   }
   const moves = history.map((_squares,move)=>{
@@ -119,7 +119,11 @@ function Game ({size}){
   );
 }
 
-function App() {
+const App = () => {
+  //TODO:Setup Home Screen to select Board size and ability to Restart matches
+  //Cleanup-TODO: Seperate consts to different modules for maintainability
+  //Later TODO: Look into using trees to store match history
+  //GIGA-TODO: AI Bot?
   const size = 4;
   return (<Game size={size}/>);
 }
