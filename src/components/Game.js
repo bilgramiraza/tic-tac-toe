@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import Board from './Board';
 import '../App.css';
+import genWinningLines from './helpers/generateWinningLines';
+import Board from './Board';
+import Status from './Status';
 
 const Game = ({size}) => {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
   const currentPlayerX = currentMove%2===0;
   const currentSquares = history[currentMove];
+  const winningLines = genWinningLines(size);
 
   const handlePlay = (nextSquares) => {
     const nextHistory = [...history.slice(0,currentMove+1),nextSquares];
@@ -17,6 +20,7 @@ const Game = ({size}) => {
   const jumpTo = (nextMove) => {
     setCurrentMove(nextMove);
   }
+  
   const moves = history.map((_squares,move)=>{
     let desc;
     if(move===history.length-1) desc = `You are at Move ${move+1}`;
@@ -29,13 +33,13 @@ const Game = ({size}) => {
       </li>
     );
   });
+
   return (
   <div className='game'>
-    <div className='game-board'>
-      <Board currentPlayerX={currentPlayerX} squares={currentSquares} onPlay={handlePlay} size={size}/>
-    </div>
+    <Status winningLines={winningLines} currentPlayerX={currentPlayerX} squares={currentSquares}/>
+    <Board winningLines={winningLines} currentPlayerX={currentPlayerX} squares={currentSquares} onPlay={handlePlay} size={size}/>
     <div className='game-info'>
-      <ol>{moves}</ol>
+      <ul>{moves}</ul>
     </div>
   </div>
   );
