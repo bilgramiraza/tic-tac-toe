@@ -21,21 +21,4 @@ const genWinningLines = (size) => {
   return lines;
 }
 
-const calculateWinner = (squares, size) => {
-  const lines = genWinningLines(size);
-  for(let i=0;i<lines.length;i++){
-    const line = lines[i];
-    let symbol = squares[line[0]];
-    let win = true;
-    for(let j=0;j<line.length;j++){
-      if(squares[line[j]]!== symbol){
-        win = false;
-        break;
-      }
-    }
-    if(win) return symbol;
-  }
-  return null;
-}
-
-export default calculateWinner;
+export default genWinningLines;
