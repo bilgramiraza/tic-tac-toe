@@ -3,6 +3,7 @@ import '../App.css';
 import genWinningLines from './helpers/generateWinningLines';
 import Board from './Board';
 import Status from './Status';
+import History from './History';
 
 const Game = ({size}) => {
   const [history, setHistory] = useState([Array(9).fill(null)]);
@@ -21,26 +22,11 @@ const Game = ({size}) => {
     setCurrentMove(nextMove);
   }
   
-  const moves = history.map((_squares,move)=>{
-    let desc;
-    if(move===history.length-1) desc = `You are at Move ${move+1}`;
-    else if(move>0) desc = (<button onClick={()=> jumpTo(move)}>{`Go to Move ${move}`}</button>);
-    else desc = (<button onClick={()=> jumpTo(move)}>Go to Game Start</button>);
-
-    return (
-      <li key={move}>
-        {desc}  
-      </li>
-    );
-  });
-
   return (
   <div className='game'>
     <Status winningLines={winningLines} currentPlayerX={currentPlayerX} squares={currentSquares}/>
     <Board winningLines={winningLines} currentPlayerX={currentPlayerX} squares={currentSquares} onPlay={handlePlay} size={size}/>
-    <div className='game-info'>
-      <ul>{moves}</ul>
-    </div>
+    <History history={history} jumpTo={jumpTo}/>
   </div>
   );
 }
