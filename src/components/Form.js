@@ -20,7 +20,6 @@ const Form = ({ setSize }) => {
         onChange={handleSizeInput} 
         value={sizeInput} 
         min={3}
-        defaultValue={3}
       />
       <button>Set Size</button>
     </form>
