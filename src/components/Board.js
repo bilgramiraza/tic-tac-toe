@@ -1,15 +1,10 @@
-import calculateWinner from './helpers/calculateWinner';
+import checkWinCondition from './helpers/checkWinCondition';
 import Square from './Square';
 
-const Board = ({ currentPlayerX, squares, onPlay, size}) => {
-
-  const winner = calculateWinner(squares, size);
-  let status;
-  if(winner)  status = `Winner ${winner}`;
-  else status=`Current Player: ${currentPlayerX?'X':'O'}`;
+const Board = ({ winningLines, currentPlayerX, squares, onPlay, size}) => {
 
   const handleClick = (index) => {
-    if(calculateWinner(squares,size) || squares[index])  return;
+    if(checkWinCondition( winningLines, squares) || squares[index])  return;
 
     const copySquares = squares.slice();
     
@@ -28,11 +23,11 @@ const Board = ({ currentPlayerX, squares, onPlay, size}) => {
     }
     renderedBoard.push(<div className='board-row' key={i}>{row}</div>);
   }
+
   return (
-    <>
-      <div className='status'>{status}</div>
+    <div className='game-board'>
       {renderedBoard}
-    </>
+    </div>
   );
 }
 
