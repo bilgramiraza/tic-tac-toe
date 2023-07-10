@@ -1,10 +1,9 @@
-import checkWinCondition from './helpers/checkWinCondition';
 import Square from './Square';
 
-const Board = ({ winningLines, currentPlayerX, squares, onPlay, size}) => {
+const Board = ({ currentPlayerX, squares, onPlay, size, gameOver}) => {
 
   const handleClick = (index) => {
-    if(checkWinCondition( winningLines, squares) || squares[index])  return;
+    if( gameOver || squares[index])  return;
 
     const copySquares = squares.slice();
     

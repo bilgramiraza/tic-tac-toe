@@ -1,10 +1,8 @@
-import checkWinCondition from './helpers/checkWinCondition';
-
-const Status = ({ winningLines, currentPlayerX, squares }) =>{
-  const winner = checkWinCondition( winningLines, squares);
+const Status = ({ currentPlayerX, gameOver}) =>{
   let status;
-  if(winner)  status = `Winner ${winner}`;
-  else status=`Current Player: ${currentPlayerX?'X':'O'}`;
+  const currentPlayer = currentPlayerX?'X':'O';
+  if(gameOver)  status = `Winner ${gameOver}`;
+  else status=`Current Player: ${currentPlayer}`;
   return (
     <div className='status'>
       {status}
