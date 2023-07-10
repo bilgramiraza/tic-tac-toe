@@ -20,6 +20,9 @@ const Game = ({size, setSize}) => {
     if(winner){
       setGameOver(winner);
     }
+    if(!gameOver && !nextSquares.includes("")){
+      setGameOver("Draw");
+    }
     const nextHistory = [...history.slice(0,currentMove+1),nextSquares];
     setHistory(nextHistory); 
     setCurrentMove(nextHistory.length-1);
