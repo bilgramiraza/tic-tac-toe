@@ -3,6 +3,7 @@ const checkWinCondition = (winningLines, board) => {
     const line = winningLines[i];
     let symbol = board[line[0]];
     let win = true;
+    if(symbol==="") continue;
     for(let j=0;j<line.length;j++){
       if(board[line[j]]!== symbol){
         win = false;

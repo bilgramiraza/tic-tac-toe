@@ -1,5 +1,5 @@
 const genWinningLines = (size) => {
-  const lines = [];
+  let lines = [];
   for(let i=0;i<size;i++){
     let row =[];
     let col =[];
@@ -7,8 +7,7 @@ const genWinningLines = (size) => {
       row.push((i*size)+j);
       col.push((j*size)+i);
     }
-    lines.push(row);
-    lines.push(col);
+    lines.push(row,col);
   }
 
   let diag1=[];
