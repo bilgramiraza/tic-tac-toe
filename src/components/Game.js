@@ -6,7 +6,7 @@ import History from './History';
 import checkWinCondition from './helpers/checkWinCondition';
 import genWinningLines from './helpers/generateWinningLines';
 
-const Game = ({size}) => {
+const Game = ({size, setSize}) => {
   const [history, setHistory] = useState([Array(9).fill("")]);
   const [currentMove, setCurrentMove] = useState(0);
   const [gameOver, setGameOver] = useState("");
@@ -24,12 +24,17 @@ const Game = ({size}) => {
     setHistory(nextHistory); 
     setCurrentMove(nextHistory.length-1);
   }
+
+  const reset = () =>{
+    setSize(null);
+  };
   
   return (
   <div className='game'>
     <Status currentPlayerX={currentPlayerX} gameOver={gameOver}/>
     <Board currentPlayerX={currentPlayerX} squares={currentSquares} onPlay={handlePlay} size={size} gameOver={gameOver}/>
     <History history={history} jumpTo={setCurrentMove}/>
+    {gameOver && <button onClick={reset}>Reset</button>}
   </div>
   );
 }
